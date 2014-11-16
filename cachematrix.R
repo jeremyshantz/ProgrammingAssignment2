@@ -1,15 +1,39 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Helper methods to assist in caching matrix solutions to avoid recalcution during repeat calls
 
-## Write a short comment describing this function
+## Creates a container object for a matrix, providing methods to get and set both the matrix and its solution.
 
-makeCacheMatrix <- function(x = matrix()) {
+makeCacheMatrix <- function(mtrx = matrix()) {
 
+    solution <- NULL
+    
+    set <- function(mtrx) {
+        mtrx <<- mtrx
+        solution <<- NULL
+    }
+    get <- function() mtrx
+    getsolution <- function() {
+        solution
+    }
+    setsolution <- function(solution) {
+        solution <<- solution
+    }
+    list(set = set, get = get, 
+         getsolution = getsolution, 
+         setsolution = setsolution)
 }
 
+## Returns the solution for a matrix created via makeCacheMatrix, caching that solution inside the matrix object and .....
+##      returning the cached solution if available.
 
-## Write a short comment describing this function
-
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+cacheSolve <- function(mtrx, ...) {
+    solution <- mtrx$getsolution()
+    
+    if(!is.null(solution)) {
+        message("returning cached data")
+        return(solution)
+    }
+    
+    solution <- solve(mtrx$get(), ...)
+    mtrx$setsolution(solution)
+    solution
 }
