@@ -10,13 +10,17 @@ makeCacheMatrix <- function(mtrx = matrix()) {
         mtrx <<- mtrx
         solution <<- NULL
     }
+    
     get <- function() mtrx
+    
     getsolution <- function() {
         solution
     }
+    
     setsolution <- function(solution) {
         solution <<- solution
     }
+    
     list(set = set, get = get, 
          getsolution = getsolution, 
          setsolution = setsolution)
@@ -26,6 +30,7 @@ makeCacheMatrix <- function(mtrx = matrix()) {
 ##      returning the cached solution if available.
 
 cacheSolve <- function(mtrx, ...) {
+    
     solution <- mtrx$getsolution()
     
     if(!is.null(solution)) {
